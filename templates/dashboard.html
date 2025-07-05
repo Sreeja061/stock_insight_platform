@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-xl mb-4">Stock Price Prediction</h2>
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="ticker" placeholder="Enter Ticker (e.g. TSLA)" required class="border p-2 mr-2">
+  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Predict</button>
+</form>
+
+{% if result %}
+  <h3 class="mt-4 text-lg font-bold">Predicted Price: ₹{{ result.predicted_price }}</h3>
+  <p class="text-sm text-gray-600">{{ result.metrics }}</p>
+  <div class="mt-4">
+    <img src="{{ result.chart_1 }}" alt="Chart 1" class="mb-4">
+    <img src="{{ result.chart_2 }}" alt="Chart 2">
+  </div>
+{% endif %}
+
+<h3 class="mt-8 text-lg font-semibold">Prediction History</h3>
+<table class="w-full mt-2 border text-sm">
+  <thead>
+    <tr>
+      <th class="border px-2">Ticker</th>
+      <th class="border px-2">Price</th>
+      <th class="border px-2">Metrics</th>
+      <th class="border px-2">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in predictions %}
+    <tr>
+      <td class="border px-2">{{ p.ticker }}</td>
+      <td class="border px-2">{{ p.predicted_price }}</td>
+      <td class="border px-2">{{ p.metrics }}</td>
+      <td class="border px-2">{{ p.created }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% if error_message %}
+  <div class="bg-red-100 text-red-700 p-2 rounded mb-4">
+    {{ error_message }}
+  </div>
+{% endif %}
+

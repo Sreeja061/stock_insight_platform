@@ -1,0 +1,11 @@
+Django>=4.2
+djangorestframework
+djangorestframework-simplejwt
+python-decouple
+yfinance
+matplotlib
+scikit-learn
+gunicorn
+whitenoise
+python-telegram-bot==22.1
+stripe
